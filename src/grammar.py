@@ -1,4 +1,4 @@
-from parsy import string, regex, seq, any_char, whitespace
+from parsy import string, regex, seq, any_char, whitespace, eof
 from enum import Enum
 from typing import Optional
 
@@ -43,14 +43,15 @@ partial_tap = seq(
     path=(path << whitespace).optional([]), 
     pin=(pin << whitespace).optional(False), 
     todo=(todo << whitespace).optional(), 
-    text=text
+    text=text.optional()
 )
 
+sep = whitespace | eof
 tap = seq(
-        datetime = (datetime << whitespace),
-        pin=(pin << whitespace).optional(False), 
-        path=(path << whitespace).optional([]), 
-        todo=(todo << whitespace).optional(), 
-        text=text
+        datetime = (datetime << sep),
+        pin=(pin << sep).optional(False), 
+        path=(path << sep).optional([]), 
+        todo=(todo << sep).optional(), 
+        text=text.optional()
 )
 
