@@ -63,9 +63,9 @@ class Record:
     def _todo(self) -> str:
         match self.todo:
             case True:
-                return 'todo'
+                return 'TODO'
             case False:
-                return 'done'
+                return 'DONE'
             case None:
                 return ''
     @property
