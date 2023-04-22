@@ -14,7 +14,6 @@ class Tap:
         self._limit = limit
         self._show_datetime = True
 
-
     def add(self, *tokens):
         string = ' '.join(map(str,tokens))
         record = grammar.partial_tap.combine_dict(Record).parse(string)  # command line taps dont need dates

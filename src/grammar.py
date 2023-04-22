@@ -33,9 +33,10 @@ time = seq(
         second = colon >> regex('\d\d').map(int)
 ).combine_dict(datetime.time)
 
+timezone = regex('[+-]\d\d:\d\d')
 datetime = seq(
         date=date,
-        time = string('T') >> time
+        time = string('T') >> time << (timezone.optional())
 ).combine_dict(datetime.datetime.combine)
 
 partial_tap = seq(
