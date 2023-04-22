@@ -39,8 +39,15 @@ datetime = seq(
         time = string('T') >> time
 ).combine_dict(datetime.datetime.combine)
 
+partial_tap = seq(
+    path=(path << whitespace).optional([]), 
+    pin=(pin << whitespace).optional(), 
+    todo=(todo << whitespace).optional(), 
+    text=text
+)
+
 tap = seq(
-        datetime = (datetime << whitespace).optional(),
+        datetime = (datetime << whitespace),
         path=(path << whitespace).optional([]), 
         pin=(pin << whitespace).optional(), 
         todo=(todo << whitespace).optional(), 
