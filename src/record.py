@@ -14,9 +14,9 @@ class Record:
     DATE_FORMAT = '%Y-%m-%dT%H:%M:%S'
 
     @classmethod
-    def from_dict(Self, d: dict):
-        d['datetime'] = datetime.strptime(entry['datetime'], Self.DATE_FORMAT)
-        return Self(**d)
+    def from_dict(Self, entry: dict):
+        entry['datetime'] = datetime.strptime(entry['datetime'], Self.DATE_FORMAT)
+        return Self(**entry)
 
     def to_dict(self):
         var_dict = vars(record)
