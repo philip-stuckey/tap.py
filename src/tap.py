@@ -56,12 +56,22 @@ class Tap:
         return record
 
     def export(self):
-        json.dump(self._taps, stdout)
+        json.dump(list(map(record_to_dict,self.database.taps)), stdout)    
 
+    def inport(self, path):
+        data = json.load(path)
+        for entry in data:
+            self.database.add(Record(**entry))
+        self.database.commit()
 
-    def list(self):
-        for tap in sorted(self._taps):
-            print(tap)
+    def list(self, id=False):
+        for tap in self._ordered_taps:
+            print(tap.id[:5] if id else '', tap)
+    
+    def pins(self):
+        for pin in filter(lambda r: r.pin, self._ordered_taps):
+            print(pin)
+
 
 
 if __name__ == '__main__':
