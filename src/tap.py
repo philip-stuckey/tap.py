@@ -7,12 +7,12 @@ from record import Record
 from sys import stdout
 
 class Tap:
-    def __init__(self, path: str = 'share/database.tap'):
+    def __init__(self, path: str = 'share/database.tap', pinned=None, show_ids=False, limit=None):
         self.database = TapDatabase(path=path)
-
-    @property
-    def _ordered_taps(self):
-        return reversed(sorted(self.database.taps))
+        self.pinned = pinned
+        self.show_id = show_ids
+        self.limit = limit
+        self.show_datetime = True
 
 
     def add(self, *tokens):
@@ -36,13 +36,33 @@ class Tap:
         for entry in data:
             self.database.add(Record.from_dict(entry))
         self.database.commit()
+    
 
     def head(self, limit=10, **args):
+        self.limit=limit
         self.list(limit=limit, **args)
 
-    def list(self, id=False, limit=100):
-        for tap in islice(self._ordered_taps, limit):
-            print(tap.id[:5] if id else '', tap)
+    def list(self):
+        taps = reversed(sorted(self.database.taps))
+        if self.limit is not None:
+            taps = islice(taps, self.limit)
+        
+        if self.pinned is not None:
+            taps = filter(lambda t: t.pin and self.pinned, taps)
+
+        for tap in taps:
+            if self.show_id:
+                print(tap.id[1:5], end=' ')
+            if self.show_datetime:
+                print(tap._datetime, end=' ')
+
+            print(
+                    tap._pin.center(3), 
+                    tap._path.ljust(8), 
+                    tap._todo.ljust(4), 
+                    tap.text
+            )
+
 
     def pins(self):
         for pin in filter(lambda r: r.pin, self._ordered_taps):
@@ -53,6 +73,7 @@ class Tap:
         record = self.database.select_one(id)
         record.pin = True
         self.database.overwrite(id,record)
+        print(record)
 
     def unpin(self, id):
         id = str(id)
