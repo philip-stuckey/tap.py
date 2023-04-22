@@ -4,11 +4,6 @@ import json
 from sys import stdout
 from dataclasses import dataclass, field
 
-def record_to_dict(record: Record):
-    var_dict = vars(record)
-    var_dict['datetime'] = record._datetime
-    var_dict['pin'] = False if record.pin is None else record.pin
-    return var_dict
 
 record_parser = grammar.tap.combine_dict(Record)
 
