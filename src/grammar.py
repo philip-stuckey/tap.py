@@ -14,9 +14,8 @@ def todo(string: str) -> Optional[bool]:
             raise ValueError(f"invalid todo value {string}")
 
 
-word = regex('[\w_-]+')
-path = (string('/') >> word).at_least(1)
 pin = string('!').optional().map(bool)
+path = (string('/') >> regex('[\w_-]+')).at_least(1)
 todo = (string("todo") | string("done")).map(todo)
 text = any_char.many().concat()
 
