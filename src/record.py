@@ -20,12 +20,19 @@ class Record:
         return var_dict
 
     def __lt__(self, other): # self < other
-        if other.pin and not self.pin:
-            return True
-        if self.pin and not other.pin:
-            return False
-        else:
-            return self.datetime < other.datetime
+       return (self.pin < other.pin) or\
+               (self._todo_int < other._todo_int) or\
+               (self.datetime < other.datetime)
+
+    @property
+    def _todo_int(self):
+        match self.todo:
+            case True: 
+                return 3
+            case None:
+                return 2
+            case False:
+                return 1
 
     @property
     def id(self):
