@@ -27,15 +27,15 @@ class Tap:
     def inport(self, path):
         with open(path, 'r') as file:
             data = json.load(file)
-
         for entry in data:
-            entry['datetime'] = datetime.strptime(entry['datetime'], Record.DATE_FORMAT)  # FIXME this should go somwhere else
-            self.database.add(Record(**entry))
+            self.database.add(Record.from_dict(entry))
         self.database.commit()
 
     def list(self, id=False):
         for tap in self._ordered_taps:
             print(tap.id[:5] if id else '', tap)
+
+
     
     def pins(self):
         for pin in filter(lambda r: r.pin, self._ordered_taps):
