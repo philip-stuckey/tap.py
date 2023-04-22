@@ -70,7 +70,7 @@ class Record:
                 return ''
     @property
     def _parts(self):
-        return (self._datetime, self._path, self._pin, self._todo, self.text)
+        return (self._datetime, self._pin, self._path,  self._todo, self.text)
 
     def __str__(self):
         return ' '.join(part for part in self._parts if len(part)>0)

@@ -48,8 +48,8 @@ partial_tap = seq(
 
 tap = seq(
         datetime = (datetime << whitespace),
-        path=(path << whitespace).optional([]), 
         pin=(pin << whitespace).optional(False), 
+        path=(path << whitespace).optional([]), 
         todo=(todo << whitespace).optional(), 
         text=text
 )
