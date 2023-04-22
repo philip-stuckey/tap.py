@@ -16,7 +16,7 @@ def todo(string: str) -> Optional[bool]:
 
 word = regex('[\w_-]+')
 path = (string('/') >> word).at_least(1)
-pin = string('*').optional().map(bool)
+pin = string('!').optional().map(bool)
 todo = (string("todo") | string("done")).map(todo)
 text = any_char.many().concat()
 

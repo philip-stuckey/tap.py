@@ -57,7 +57,7 @@ class Record:
 
     @property
     def _pin(self) -> str:
-        return '*' if self.pin else ''
+        return '!' if self.pin else ''
 
     @property
     def _todo(self) -> str:
