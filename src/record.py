@@ -10,8 +10,10 @@ class Record:
     text: str
     todo: Optional[bool] = None
     datetime: datetime = datetime.now()
-   
-    def to_dict(self: Record):
+    
+    DATE_FORMAT = '%Y-%m-%dT%H:%M:%S'
+
+    def to_dict(self):
         var_dict = vars(record)
         var_dict['datetime'] = record._datetime
         var_dict['pin'] = False if record.pin is None else record.pin
@@ -34,7 +36,7 @@ class Record:
     @property
     def _datetime(self) -> str:
         dt = self.datetime if self.datetime is not None else datetime.now()
-        return dt.strftime('%Y-%m-%dT%H:%M:%S')
+        return dt.strftime(self.DATE_FORMAT)
 
     @property
     def _path(self)-> str:
