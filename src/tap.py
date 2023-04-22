@@ -7,12 +7,12 @@ from record import Record
 from sys import stdout
 
 class Tap:
-    def __init__(self, path: str = 'share/database.tap', pinned=None, show_ids=False, limit=None):
+    def __init__(self, path: str = '.local/share/tap', pinned=None, show_ids=False, limit=None, show_datetime=True):
         self.database = TapDatabase(path=path)
         self._pinned = pinned
         self._show_id = show_ids
         self._limit = limit
-        self._show_datetime = True
+        self._show_datetime = show_datetime 
 
     def add(self, *tokens):
         string = ' '.join(map(str,tokens))
