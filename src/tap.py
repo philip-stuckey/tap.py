@@ -40,7 +40,7 @@ class TapDatabase:
 
 
 class Tap:
-    def __init__(self, path: str = 'database.tap'):
+    def __init__(self, path: str = 'share/database.tap'):
         self.database = TapDatabase(path=path)
 
     @property
