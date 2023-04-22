@@ -19,9 +19,9 @@ class Record:
         return Self(**entry)
 
     def to_dict(self):
-        var_dict = vars(record)
-        var_dict['datetime'] = record._datetime
-        var_dict['pin'] = False if record.pin is None else record.pin
+        var_dict = vars(self)
+        var_dict['datetime'] = self._datetime
+        var_dict['pin'] = False if self.pin is None else self.pin
         return var_dict
 
     def __lt__(self, other): # self < other
