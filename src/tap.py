@@ -9,10 +9,10 @@ from sys import stdout
 class Tap:
     def __init__(self, path: str = 'share/database.tap', pinned=None, show_ids=False, limit=None):
         self.database = TapDatabase(path=path)
-        self.pinned = pinned
-        self.show_id = show_ids
-        self.limit = limit
-        self.show_datetime = True
+        self._pinned = pinned
+        self._show_id = show_ids
+        self._limit = limit
+        self._show_datetime = True
 
 
     def add(self, *tokens):
@@ -38,22 +38,23 @@ class Tap:
         self.database.commit()
     
 
-    def head(self, limit=10, **args):
+    def head(self, *args, limit=10, **kwargs):
         self.limit=limit
-        self.list(limit=limit, **args)
+        self.list(*args, **kwargs)
 
-    def list(self):
+    def list(self, path=''):
         taps = reversed(sorted(self.database.taps))
-        if self.limit is not None:
+        if self._limit is not None:
             taps = islice(taps, self.limit)
         
-        if self.pinned is not None:
-            taps = filter(lambda t: t.pin and self.pinned, taps)
+        if self._pinned is not None:
+            taps = filter(lambda t: t.pin and self._pinned, taps)
 
+        taps = filter(lambda t: t._path.startswith(path), taps)
         for tap in taps:
-            if self.show_id:
+            if self._show_id:
                 print(tap.id[1:5], end=' ')
-            if self.show_datetime:
+            if self._show_datetime:
                 print(tap._datetime, end=' ')
 
             print(
@@ -64,9 +65,9 @@ class Tap:
             )
 
 
-    def pins(self):
-        for pin in filter(lambda r: r.pin, self._ordered_taps):
-            print(pin)
+    def pins(self, *args, **kwargs):
+        self._pinned = True
+        self.list(*args, **kwargs)
 
     def pin(self, id):
         id = str(id)
