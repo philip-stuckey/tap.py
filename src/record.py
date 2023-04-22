@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
+from hashlib import sha256
 
 @dataclass 
 class Record:
@@ -9,7 +10,22 @@ class Record:
     text: str
     todo: Optional[bool] = None
     datetime: datetime = datetime.now()
-    
+   
+    def __lt__(self, other): # self < other
+        if other.pin and not self.pin:
+            return True
+        if self.pin and not other.pin:
+            return False
+        else:
+            return self.datetime < other.datetime
+
+    @property
+    def id(self):
+        m = sha256()
+        m.update(self._datetime.encode())
+        m.update(self.text.encode())
+        return m.hexdigest()
+
     @property
     def _datetime(self) -> str:
         return self.datetime.isoformat()
