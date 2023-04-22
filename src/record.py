@@ -18,15 +18,15 @@ class Record:
         var_dict['datetime'] = record._datetime
         var_dict['pin'] = False if record.pin is None else record.pin
         return var_dict
-        def __lt__(self, other): # self < other
-            if other.pin and not self.pin:
-                return True
-            if self.pin and not other.pin:
-                return False
-            else:
-                return self.datetime < other.datetime
-    
-        
+
+    def __lt__(self, other): # self < other
+        if other.pin and not self.pin:
+            return True
+        if self.pin and not other.pin:
+            return False
+        else:
+            return self.datetime < other.datetime
+
     @property
     def id(self):
         m = sha256()
