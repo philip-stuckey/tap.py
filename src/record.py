@@ -28,7 +28,8 @@ class Record:
 
     @property
     def _datetime(self) -> str:
-        return self.datetime.isoformat()
+        dt = self.datetime if self.datetime is not None else datetime.now()
+        return dt.strftime('%Y-%m-%dT%H:%M:%S')
 
     @property
     def _path(self)-> str:
