@@ -25,7 +25,8 @@ class Record:
                 return False
             else:
                 return self.datetime < other.datetime
-
+    
+        
     @property
     def id(self):
         m = sha256()

@@ -1,6 +1,7 @@
 import grammar
-from record import Record
 import json
+from datetime import datetime
+from record import Record
 from sys import stdout
 from dataclasses import dataclass, field
 
@@ -51,11 +52,14 @@ class Tap:
         return record
 
     def export(self):
-        json.dump(list(map(record_to_dict,self.database.taps)), stdout)    
+        json.dump(list(map(Record.to_dict,self.database.taps)), stdout)    
 
     def inport(self, path):
-        data = json.load(path)
+        with open(path, 'r') as file:
+            data = json.load(file)
+
         for entry in data:
+            entry['datetime'] = datetime.strptime(entry['datetime'], Record.DATE_FORMAT)  # FIXME this should go somwhere else
             self.database.add(Record(**entry))
         self.database.commit()
 
