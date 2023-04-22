@@ -5,8 +5,6 @@ from datetime import datetime
 from record import Record
 from sys import stdout
 
-
-
 class Tap:
     def __init__(self, path: str = 'share/database.tap'):
         self.database = TapDatabase(path=path)
@@ -42,7 +40,6 @@ class Tap:
     def pins(self):
         for pin in filter(lambda r: r.pin, self._ordered_taps):
             print(pin)
-
 
 
 if __name__ == '__main__':
