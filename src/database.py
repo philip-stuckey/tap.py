@@ -17,8 +17,17 @@ class TapDatabase:
     @property
     def taps(self):
         with open(self.path, 'r') as file:
+            previous_record = record_parser.parse(next(file))
             for line in file:
-                yield record_parser.parse(line.strip())
+                match (record_parser | grammar.text).parse(line):
+                    case Record() as new_record: 
+                        yield previous_record
+                        previous_record=new_record
+                    case str(text):
+                        previous_record.text += text
+                        continue
+                    case _:
+                        raise RimtimeError("database corrupt")
 
     def select(self, id: str):
         return (tap for tap in self.taps if tap.id.startswith(str(id)))

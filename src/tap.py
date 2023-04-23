@@ -60,7 +60,7 @@ class Tap:
                     tap._pin if tap.pin else ' ', 
                     tap._path.ljust(8), 
                     tap._todo.ljust(5), 
-                    tap.text,
+                    tap.text.strip(),
                     sep=''
             )
 
