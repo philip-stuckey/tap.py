@@ -20,7 +20,8 @@ class TapDatabase:
             previous_record = record_parser.parse(next(file))
             for line in file:
                 match (record_parser | grammar.text).parse(line):
-                    case Record() as new_record: 
+                    case Record() as new_record:
+                        previous_record.text = previous_record.text.strip()
                         yield previous_record
                         previous_record=new_record
                     case str(text):

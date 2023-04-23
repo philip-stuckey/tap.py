@@ -40,6 +40,10 @@ class Record:
                 return 1
 
     @property
+    def long_form(self):
+        return len(self.text.strip().split('\n')) > 1
+
+    @property
     def id(self):
         m = sha256()
         m.update(self._datetime.encode())

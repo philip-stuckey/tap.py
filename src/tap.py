@@ -51,6 +51,9 @@ class Tap:
 
         taps = filter(lambda t: t._path.startswith(path), taps)
         for tap in taps:
+            if tap.long_form:
+                continue 
+
             if self._show_id:
                 print(tap.id[0:5], end=' ')
             if self._show_datetime:
