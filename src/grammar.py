@@ -40,8 +40,8 @@ datetime = seq(
 ).combine_dict(datetime.datetime.combine)
 
 partial_tap = seq(
-    path=(path << whitespace).optional([]), 
     pin=(pin << whitespace).optional(False), 
+    path=(path << whitespace).optional([]), 
     todo=(todo << whitespace).optional(), 
     text=text.optional()
 )
