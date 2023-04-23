@@ -21,6 +21,12 @@ class Tap:
         self.database.commit()
         return record
     
+    def todo(self, token, *tokens):
+        record = self.add(token, tokens)
+        record.todo = True
+#        self.database.overwrite(record.id, record)  # stupidly expensive, optimize here first
+        return record
+
     def remove(self, id):
         victim = self.database.select_one(id)
         self.database.remove(id)
